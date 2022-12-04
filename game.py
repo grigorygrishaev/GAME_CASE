@@ -45,7 +45,7 @@ class Game:
                     self.t = -1
 
     def war_pandemic(self):
-  '''Regulated event - war, unregulated event - pandemic'''
+    '''Regulated event - war, unregulated event - pandemic'''
         print('События не радуют. Очередная вспышка ковида скосила несколько твоих ребят, а противники решили, что сейчас самое время забить стрелу. Придется идти, честью не рискуют. ')
        # The pandemic has resulted in three-people decreasing
         if self.labor >= 3:
