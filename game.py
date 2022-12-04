@@ -7,7 +7,7 @@ class Game:
     st = ['фраер', 'сомнительный', 'приблатненный', 'блатной', 'пахан']
 
     def __init__(self, team, guns=0, n=2, t=0, food=0, flag=True):
-        '''Initialization of whole Game class'''
+    '''Initialization of whole Game class'''
         self.flag = flag
         self.n = n
         self.t = t
@@ -129,7 +129,7 @@ class Game:
                 print('После такого невольно начинаешь сомневаться, стоило ли вообще приходить. Было больно. Очень больно.')
 
     def amnesty_fire(self):
-        '''Method that describes process of amnesty (adding more people to the team) and fire (decrease of budget)'''
+    '''Method that describes process of amnesty (adding more people to the team) and fire (decrease of budget)'''
         print('пришли люди, возьмем?')
         print('сейчас в нашей команде:', self.labor)
         self.a = input()
@@ -173,7 +173,7 @@ class Game:
                 self.food = 0
 
     def raid(self):
-'''The player has to decide whether he/she will participate in raid or will not'''
+    '''The player has to decide whether he/she will participate in raid or will not'''
         print('Появилась тема, можно испытать судьбу и устроить рейд. Погнали? Да / нет: ')
         self.ans = input().lower()
         if self.ans == 'да':
@@ -190,7 +190,7 @@ class Game:
             return 'Это твой выбор. Обойдемся без нечестных методов.'
 
     def res(self):
-'''The final output'''
+    '''The final output'''
         status = self.status
         money = str(self.money)
         guns = str(self.guns)
