@@ -10,21 +10,24 @@ class Game:
     st = ['фраер', 'сомнительный', 'приблатненный', 'блатной', 'пахан']
 
     def __init__(self, team, guns=0, n=2, t=0, food=0, flag=True):
-        self.flag = flag
         self.n = n
-        self.t = t
         self.food = food
         self.status = Game.st[self.n]
+        self.team = team
+        self.flag = flag
+        self.t = t
+
         if team == '1':
-            self.money = 100
+            self.money = 300
             self.labor = 10
             self.guns = guns
         elif team == '2':
-            self.money = 120
+            self.money = 300
             self.labor = 10
             self.guns = guns
 
     def shopping(self):
+        '''Method describes the process of buying food and guns'''
         print('Осталось денег:', self.money)
         self.ans = input('Ребята проголодались, будем закупать еду? Да / нет: ').lower()
         if self.ans == 'да':
@@ -42,11 +45,12 @@ class Game:
             while self.t != -1:
                 print()
                 k = self.money // 20
-                self.guns_bought = int(input('Сколько берем? (хватает на ' + str(k) + ')? '))
+                self.guns_bought = int(input('Сколько берем (хватает на ' + str(k) + ')? '))
                 if self.guns_bought * 20 <= self.money:
                     self.money -= self.guns_bought * 20
                     self.guns += self.guns_bought
                     self.t = -1
+        self.t = 0
 
     def war_pandemic(self):
         '''Regulated event - war, unregulated event - pandemic'''
@@ -57,9 +61,8 @@ class Game:
             self.labor -= 3
         else:
             self.labor = 0
-
-        self.enemy = random.randint(4, 12)
-        self.enemy_guns = random.randint(0, 5)
+        self.enemy = random.randint(4, 10)
+        self.enemy_guns = random.randint(0, 3)
         print('Численность противника: ', self.enemy)
         print('Кастетов у противника: ', self.enemy_guns)
         print('У тебя людей: ', self.labor)
@@ -68,81 +71,99 @@ class Game:
         if (self.labor == self.enemy) and (self.guns == self.enemy_guns):
             a = random.randint(0, 9)
             if a in [0, 4]:
-                self.status = Game.st[self.n + 1]
+                self.n += 1
+                self.status = Game.st[self.n]
                 print('Красивая драка. Равная. Победа за вами!')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print('Несмотря на равные условия, вы не вывезли.')
         elif (self.labor == self.enemy) and (self.guns > self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0, 5]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 6]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print('Ваши ребята оказались экипированнее. Так держать, это победа!')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print(
                     'Мало купить кастеты, с ними еще нужно уметь обращаться. Похоже, этого навыка вам не хватило. Вы покинули стрелку с позором. ')
         elif (self.labor == self.enemy) and (self.guns < self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0, 3]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 5]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print(
                     'Ни одно оружие не может противостоять силе большинства и его слаженной работе. Респект, это победа в вашу копилку. ')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print(
                     'Стоять с голыми руками перед вооруженной толпой — страшное дело. Шансов на победу особо и не было, но кто виноват? ')
         elif (self.labor > self.enemy) and (self.guns == self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0, 5]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 6]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print('Вас оказалось больше. Вы быстро расправились с агрессорами. Отлично!')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print(
                     'Похоже, толку от численного превосходства оказалось мало, вас разбили. Не думали над тем, чтобы заглянуть в оружейный?')
         elif (self.labor > self.enemy) and (self.guns > self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0, 8]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 9]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print('Пришел, увидел, победил. Это определенно про вас. Абсолютное превосходство.')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print(
                     'Одному Богу известно, как вы могли проиграть, имея такое преимущество. Будь уверен, это пагубно скажется на твоем авторитете.')
         elif (self.labor > self.enemy) and (self.guns < self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0, 4]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 5]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print(
                     'Ни одно оружие не может противостоять силе большинства и его слаженной работе. Респект, это победа в вашу копилку.')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print(
                     'Стоять с голыми руками перед вооруженной толпой — страшное дело. Шансов на победу особо и не было, но кто виноват?')
         elif (self.labor < self.enemy) and (self.guns < self.enemy_guns):
-            self.status = Game.st[self.n - 1]
+            self.n -= 1
+            self.status = Game.st[self.n]
             print('После такого невольно начинаешь сомневаться, стоило ли вообще приходить. Было больно. Очень больно.')
         elif (self.labor < self.enemy) and (self.guns == self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 6]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print('Быть в меньшинстве нелегко, но техника зарешала. Враг разбит! ')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print('Не стоило недооценивать силу холодного оружия. На вас снова отыгрались.')
         elif (self.labor < self.enemy) and (self.guns > self.enemy_guns):
             a = random.randint(0, 9)
-            if a in [0, 2]:
-                self.status = Game.st[self.n + 1]
+            if a in [0, 6]:
+                self.n += 1
+                self.status = Game.st[self.n]
                 print(
                     'Как говорил Макиавелли: "Та война справедлива, которая необходима, и то оружие священно, на которое единственная надежда". Хоть вы и были в меньшинстве, кастеты сделали свое дело. Это победа!')
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print(
                     'После такого невольно начинаешь сомневаться, стоило ли вообще приходить. Было больно. Очень больно.')
 
     def amnesty_fire(self):
+        '''Regulated event - amnesty, unregulated - fire'''
         print(
             'Вот это встреча! Без криминала на улицах обходится редко, и год назад трех твоих друзей закрыли, но выпустили за примерное поведение. Они услышали о твоем положении и хотят присоединиться к банде. Берем? Да / нет:')
         print('У тебя людей:', self.labor)
@@ -159,39 +180,48 @@ class Game:
         print('Осталось денег:', self.money)
 
     def feeding(self):
+        '''Method let the player decide how much food he/she should buy or how many guns he/she can exchange to food'''
         print('Народ проголодался.')
         if self.food >= self.labor:
             self.food -= self.labor
-            self.status = Game.st[self.n + 1]
+            if self.n < 4:
+                self.n += 1
+            else:
+                self.n = 4
+            self.status = Game.st[self.n]
             print('Отлично, все накормлены.')
         else:
             print(
                 'Похоже, тебе нечем кормить людей. Хочешь обменять кастеты на еду (1 кастет = 2 единицы еды)? У вас есть ',
                 self.guns,
                 'кастетов. Да / нет: ')
-            self.ans = input()
+            self.ans = input().lower()
             if self.ans == 'да':
                 print('Сколько кастетов обменять? ')
                 self.guns_sold = int(input())
                 if self.guns_sold <= self.guns:
                     self.food += (self.guns_sold * 2)
+                    self.guns -= self.guns_sold
                 if self.food >= self.labor:
                     self.food -= self.labor
-                    self.status = Game.st[self.n + 1]
+                    self.n += 1
+                    self.status = Game.st[self.n]
                     print('Отлично, все накормлены.')
                 else:
-                    self.status = Game.st[self.n - 1]
+                    self.n -= 1
+                    self.status = Game.st[self.n]
                     print('Без комментариев. Ну, ничего не поделаешь.')
                     self.labor -= self.food
                     self.food = 0
             else:
-                self.status = Game.st[self.n - 1]
+                self.n -= 1
+                self.status = Game.st[self.n]
                 print('Без комментариев. Однако, это твой выбор. ')
                 self.labor -= self.food
                 self.food = 0
 
     def raid(self):
-        '''The player has to decide whether he/she will participate in raid or will not'''
+        '''Method Raid. The player has to decide whether he/she will participate in raid or will not'''
         print('Появилась тема, можно испытать судьбу и устроить рейд. Погнали? Да / нет: ')
         self.ans = input().lower()
         if self.ans == 'да':
@@ -212,22 +242,31 @@ class Game:
         money = str(self.money)
         guns = str(self.guns)
         labor = str(self.labor)
+        food = str(self.food)
         if self.labor <= 0:
             self.flag = False
         if status == Game.st[0]:
             self.flag = False
         if self.flag == True:
-            return 'Пора посмотреть, к чему ты привел свою банду. ' + '\n' + 'Статус: ' + status + '\n' + 'Люди: ' + labor + '\n' + 'Кастеты: ' + guns + '\n' + 'Деньги: ' + money + '\n' + 'На этом история не заканчивается, встретимся в следующем году.'
+            return 'Пора посмотреть, к чему ты привел свою банду. ' + '\n' + 'Статус: ' + status + '\n' + 'Люди: ' + labor + '\n' + 'Еда: ' + food + '\n' + 'Кастеты: ' + guns + '\n' + 'Деньги: ' + money + '\n' + 'На этом история не заканчивается, встретимся в следующем году.' + '\n' + (
+                        30 * '.')
+
         else:
-            return 'Пора посмотреть, к чему ты привел свою банду. ' + '\n' + 'Статус: ' + status + '\n' + 'Люди: ' + labor + '\n' + 'Кастеты: ' + guns + '\n' + 'Деньги: ' + money
+            return 'Пора посмотреть, к чему ты привел свою банду. ' + '\n' + 'Статус: ' + status + '\n' + 'Люди: ' + labor + '\n' + 'Еда: ' + food + '\n' + 'Кастеты: ' + guns + '\n' + 'Деньги: ' + money + '\n' + (
+                        30 * '.')
 
     def minus(self):
-        if self.money < 0 or self.labor <= 0:
+        '''Method checks whether there are minus numbers or not'''
+
+        if self.status == Game.st[-1]:
+            return 2
+        elif self.money < 0 or self.labor <= 0 or self.status == Game.st[0]:
             return False
         else:
             return True
 
     def next(self):
+        '''Method that starts the next year'''
         return self.flag
 
 
@@ -280,49 +319,57 @@ print(colored('Теперь ты готов ко всему. Почти ко в�
 print('')
 
 if team == '1':
-    c = Game('1', 0)
+    c = Game('1')
     k = c.next()
     while k == True:
         i = random.randint(1, 2)
         c.shopping()
-        if c.minus() == False:
-            k = False
         if i == 1:
             c.war_pandemic()
         elif i == 2:
             c.amnesty_fire()
         c.feeding()
-        if c.minus() == False:
-            k = False
         print(c.raid())
-        if c.minus() == False:
-            k = False
         print(c.res())
-        if c.minus() == False:
+        m = c.minus()
+        if m == False:
             print(colored(
                 'Ты не оправдал ожиданий. Давно твоих парней не видели такими обозленными. Твоя история на этом закончена.',
                 'red'))
             k = False
+        if m == 2:
+            print(colored(
+                '"Любишь медок, люби и холодок" говорите вы всем своим завистникам и противникам, а сами заслуженно становитесь паханом вашей банды! Это победа!',
+                'red'))
+            break
+        if m == True:
+            pass
+
+
 elif team == '2':
-    s = Game('2', 0)
+    s = Game('2')
     h = s.next()
     while h == True:
         i = random.randint(1, 2)
         s.shopping()
-        if s.minus() == False:
-            h = False
+
         if i == 1:
             s.war_pandemic()
         elif i == 2:
             s.amnesty_fire()
         s.feeding()
-        if s.minus() == False:
-            k = False
         print(s.raid())
-        if s.minus() == False:
-            h = False
         print(s.res())
-        if s.minus() == False:
-            print('К сожалению, игра окончена')
-            k = False
 
+        if s.minus() == False:
+            print(colored(
+                'Ты не оправдал ожиданий. Давно твоих парней не видели такими обозленными. Твоя история на этом закончена.',
+                'red'))
+            h = False
+        if s.minus() == True:
+            pass
+        if s.minus() == 2:
+            print(colored(
+                '"Любишь медок, люби и холодок" говорите вы всем своим завистникам и противникам, а сами заслуженно становитесь паханом вашей банды! Это победа!',
+                'red'))
+            break
